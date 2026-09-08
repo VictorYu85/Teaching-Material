@@ -6,7 +6,6 @@
   <title>Real Estate Learning Hub & Interactive Topic Tree</title>
   <style>
     :root {
-      /* High-contrast palette: Matte gray canvas + Crisp white cards + Dark ink text */
       --canvas-bg: #e2e8f0;
       --surface: #ffffff;
       --surface-subtle: #f8fafc;
@@ -16,7 +15,7 @@
       --text-sub: #334155;
       --text-muted: #64748b;
 
-      /* Bold, high-contrast family colors */
+      /* Bold family colors */
       --blue-main: #0284c7;
       --blue-border: #0284c7;
       --blue-bg: #eff6ff;
@@ -41,7 +40,7 @@
       flex-direction: column;
     }
 
-    /* Top Navigation Bar: Crisp, high-contrast header */
+    /* Top Navigation Header */
     header {
       height: 58px;
       background: var(--surface);
@@ -140,7 +139,7 @@
       position: relative;
     }
 
-    /* 2D Canvas Viewport: Matte cool gray with sharp dark dot grid */
+    /* 2D Canvas Viewport: Matte cool gray */
     .canvas-container {
       flex: 1;
       position: relative;
@@ -157,8 +156,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 3200px;
-      height: 2400px;
+      width: 3600px;
+      height: 2800px;
       transform-origin: 0 0;
       pointer-events: none;
     }
@@ -174,45 +173,108 @@
       z-index: 10;
     }
 
-    /* Clearly Framed Cluster Boundary Boxes */
+    /* =========================================================================
+       CATEGORY & CLUSTER BOXES (Collapsible + Large Category Font)
+       ========================================================================= */
     .cluster-box {
       position: absolute;
       border-radius: 16px;
       padding: 24px;
       pointer-events: auto;
       z-index: 5;
+      transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+      overflow: hidden;
     }
     .cluster-val {
-      background: rgba(2, 132, 199, 0.06);
-      border: 2px solid #0284c7;
+      background: rgba(2, 132, 199, 0.05);
+      border: 2.5px solid #0284c7;
     }
     .cluster-lease {
-      background: rgba(5, 150, 105, 0.06);
-      border: 2px solid #059669;
+      background: rgba(5, 150, 105, 0.05);
+      border: 2.5px solid #059669;
+    }
+    .cluster-box.collapsed {
+      height: 76px !important;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+    }
+
+    /* Large Prominent Category Headers */
+    .cluster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      user-select: none;
+    }
+    .cluster-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .cluster-label {
-      font-size: 13px;
+      font-size: 22px; /* Substantially larger font as requested */
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      margin: 0;
     }
-    .cluster-val .cluster-label { color: #0369a1; }
-    .cluster-lease .cluster-label { color: #047857; }
+    .cluster-val .cluster-label { color: #0284c7; }
+    .cluster-lease .cluster-label { color: #059669; }
 
-    /* Topic Node Cards: Pure Solid White with 1.5px Dark Border & High Contrast */
+    .cluster-tag {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+    .cluster-val .cluster-tag {
+      background: #eff6ff;
+      color: #0369a1;
+      border: 1.5px solid #7dd3fc;
+    }
+    .cluster-lease .cluster-tag {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1.5px solid #6ee7b7;
+    }
+
+    /* Collapse/Expand Toggle Button */
+    .btn-cluster-toggle {
+      background: #ffffff;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      cursor: pointer;
+      color: #0f172a;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      transition: all 0.12s;
+    }
+    .btn-cluster-toggle:hover {
+      background: #f1f5f9;
+      border-color: #475569;
+    }
+
+    /* =========================================================================
+       TOPIC NODE CARDS (High Contrast, Top-to-Bottom Flow)
+       ========================================================================= */
     .node-card {
       position: absolute;
       width: 236px;
+      height: 114px;
       background: #ffffff;
       border: 1.5px solid var(--border-card);
       border-radius: 10px;
-      padding: 13px 15px;
+      padding: 12px 14px;
       box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.14), 0 2px 4px rgba(15, 23, 42, 0.06);
       pointer-events: auto;
       cursor: pointer;
       z-index: 20;
-      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.25s ease;
     }
     .node-card:hover {
       transform: translateY(-3px);
@@ -229,6 +291,11 @@
     .node-card.locked {
       background: #f8fafc;
       border-color: #94a3b8;
+    }
+    .node-card.hidden-by-collapse {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0.95);
     }
 
     .node-header {
@@ -325,9 +392,7 @@
       font-weight: 800;
       transition: background 0.1s;
     }
-    .ctrl-btn:hover {
-      background: #e2e8f0;
-    }
+    .ctrl-btn:hover { background: #e2e8f0; }
 
     /* Split-Screen Lesson Reader */
     .reader-panel {
@@ -406,7 +471,6 @@
       color: #ffffff;
     }
 
-    /* Prerequisite Warning Alert */
     .prereq-banner {
       background: #fffbeb;
       border-bottom: 1.5px solid #fde68a;
@@ -463,7 +527,6 @@
     </div>
 
     <div class="header-actions">
-      <!-- Progress Pill -->
       <div class="progress-pill">
         <span id="progress-text">Mastery: 0 / 12 (0%)</span>
         <div class="progress-bar-wrap">
@@ -471,32 +534,30 @@
         </div>
       </div>
 
-      <!-- File Binding Button -->
       <button id="btn-link-file" class="btn btn-sync" onclick="handleLinkProgressFile()" title="Sync directly with your local progress.md">
         <span>📁</span> <span id="link-file-label">Link progress.md</span>
       </button>
 
-      <!-- Fit View -->
       <button class="btn" onclick="fitView()" title="Fit entire map on screen">
         <span>🎯</span> <span>Fit Map</span>
       </button>
     </div>
   </header>
 
-  <!-- Workspace: Canvas + Split Reader -->
+  <!-- Workspace -->
   <div class="workspace">
 
     <!-- 2D Canvas Viewport: Matte Cool Gray -->
     <div id="canvas-container" class="canvas-container">
       <div id="canvas-world" class="canvas-world">
-        <!-- SVG for High-Contrast Connecting Lines -->
+        <!-- SVG for Downward Connecting Lines -->
         <svg id="canvas-svg" class="canvas-svg">
           <defs>
-            <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7" />
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 1 0 L 5 10 L 9 0 z" fill="#0284c7" />
             </marker>
-            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669" />
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 1 0 L 5 10 L 9 0 z" fill="#059669" />
             </marker>
           </defs>
         </svg>
@@ -534,7 +595,7 @@
         </div>
       </div>
 
-      <!-- Soft Prerequisite Warning Banner -->
+      <!-- Prerequisite Warning Banner -->
       <div id="prereq-banner" class="prereq-banner" style="display: none;">
         <span>⚠️</span>
         <span id="prereq-message">Suggested order: We recommend mastering prerequisites first.</span>
@@ -548,20 +609,28 @@
 
   <script>
     // =========================================================================
-    // TOPIC REGISTRY & DEPENDENCY GRAPH MANIFEST
+    // TOP-TO-BOTTOM TOPIC REGISTRY & DEPENDENCY GRAPH MANIFEST
     // =========================================================================
+    // Card Dimensions: width = 236px, height = 114px
+    const CARD_WIDTH = 236;
+    const CARD_HEIGHT = 114;
+
     const TOPICS = [
-      // 1. Valuation Family
+      // -----------------------------------------------------------------------
+      // 1. Valuation Family (Top to Bottom)
+      // -----------------------------------------------------------------------
+      // Level 1: Foundational (Top)
       {
         id: "cash-flow",
         title: "Cash Flow",
         family: "Valuation",
         familyName: "Valuation & Underwriting",
         file: "topics/cash-flow.html",
-        x: 160,
-        y: 200,
+        x: 130,
+        y: 110,
+        level: 1,
         prerequisites: [],
-        summary: "Net spendable surplus remaining after all operating expenses and mortgage debt service."
+        summary: "Net spendable surplus remaining after operating expenses and mortgage debt service."
       },
       {
         id: "real-estate-valuations",
@@ -569,10 +638,25 @@
         family: "Valuation",
         familyName: "Valuation & Underwriting",
         file: "topics/real-estate-valuations.html",
-        x: 160,
-        y: 420,
+        x: 480,
+        y: 110,
+        level: 1,
         prerequisites: [],
         summary: "Income Approach, Sales Comps, and Cost Approach methodologies."
+      },
+
+      // Level 2: Direct Dependents (Middle)
+      {
+        id: "rent-roll",
+        title: "Rent Roll Analysis",
+        family: "Valuation",
+        familyName: "Valuation & Underwriting",
+        file: "topics/rent-roll.html",
+        x: 130,
+        y: 310,
+        level: 2,
+        prerequisites: ["cash-flow"],
+        summary: "Detailed audit of tenant suites, lease terms, rollover risk, and collections."
       },
       {
         id: "cap-rate",
@@ -580,21 +664,25 @@
         family: "Valuation",
         familyName: "Valuation & Underwriting",
         file: "topics/cap-rate.html",
-        x: 520,
-        y: 280,
+        x: 480,
+        y: 310,
+        level: 2,
         prerequisites: ["cash-flow", "real-estate-valuations"],
         summary: "Unleveraged pricing yield translating Net Operating Income to market asset value."
       },
+
+      // Level 3: Advanced Valuation (Lower)
       {
-        id: "rent-roll",
-        title: "Rent Roll Analysis",
+        id: "irr",
+        title: "Internal Rate of Return (IRR)",
         family: "Valuation",
         familyName: "Valuation & Underwriting",
-        file: "topics/rent-roll.html",
-        x: 520,
-        y: 110,
-        prerequisites: ["cash-flow"],
-        summary: "Detailed audit of tenant suites, lease terms, rollover risk, and collections."
+        file: "topics/irr.html",
+        x: 230,
+        y: 520,
+        level: 3,
+        prerequisites: ["cash-flow", "cap-rate"],
+        summary: "Multi-year annualized return compounding annual cash flows and exit reversion."
       },
       {
         id: "third-party-appraising",
@@ -602,32 +690,26 @@
         family: "Valuation",
         familyName: "Valuation & Underwriting",
         file: "topics/third-party-appraising.html",
-        x: 880,
-        y: 390,
+        x: 520,
+        y: 520,
+        level: 3,
         prerequisites: ["real-estate-valuations", "cap-rate"],
         summary: "Independent MAI appraisal audits commissioned for lenders and LTV underwriting."
       },
-      {
-        id: "irr",
-        title: "Internal Rate of Return (IRR)",
-        family: "Valuation",
-        familyName: "Valuation & Underwriting",
-        file: "topics/irr.html",
-        x: 880,
-        y: 210,
-        prerequisites: ["cash-flow", "cap-rate"],
-        summary: "Multi-year annualized return compounding annual cash flows and exit reversion."
-      },
 
-      // 2. Leasing Family
+      // -----------------------------------------------------------------------
+      // 2. Leasing Family (Top to Bottom)
+      // -----------------------------------------------------------------------
+      // Level 1: Foundational (Top)
       {
         id: "leasing-overview",
         title: "Commercial Leasing",
         family: "Leasing",
         familyName: "Leasing & Tenant Operations",
         file: "topics/leasing-overview.html",
-        x: 160,
-        y: 840,
+        x: 940,
+        y: 110,
+        level: 1,
         prerequisites: [],
         summary: "Full Service Gross, Modified Gross, and Triple Net (NNN) contract structures."
       },
@@ -637,32 +719,25 @@
         family: "Leasing",
         familyName: "Leasing & Tenant Operations",
         file: "topics/property-taxes.html",
-        x: 520,
-        y: 680,
+        x: 1300,
+        y: 110,
+        level: 1,
         prerequisites: ["leasing-overview", "real-estate-valuations"],
         summary: "Assessment millage, purchase price reassessment shocks, and NNN pass-throughs."
       },
+
+      // Level 2: Space Utility & Tenant Outlay (Middle)
       {
         id: "building-usefulness",
         title: "Building Usefulness",
         family: "Leasing",
         familyName: "Leasing & Tenant Operations",
         file: "topics/building-usefulness.html",
-        x: 520,
-        y: 890,
+        x: 940,
+        y: 310,
+        level: 2,
         prerequisites: ["leasing-overview"],
         summary: "Functional space utility, clear heights, column grids, and dock loading aprons."
-      },
-      {
-        id: "customer-preferences",
-        title: "Customer Preferences",
-        family: "Leasing",
-        familyName: "Leasing & Tenant Operations",
-        file: "topics/customer-preferences.html",
-        x: 880,
-        y: 890,
-        prerequisites: ["building-usefulness"],
-        summary: "Tenant ESG certifications, MERV-13 air filtration, and transit access."
       },
       {
         id: "tenant-improvements",
@@ -670,42 +745,62 @@
         family: "Leasing",
         familyName: "Leasing & Tenant Operations",
         file: "topics/tenant-improvements.html",
-        x: 520,
-        y: 1100,
+        x: 1300,
+        y: 310,
+        level: 2,
         prerequisites: ["leasing-overview", "cash-flow"],
         summary: "Upfront capital allowances, turnkey buildouts, and leasing commissions."
       },
+
+      // Level 3: Tenant Demands (Lower)
+      {
+        id: "customer-preferences",
+        title: "Customer Preferences",
+        family: "Leasing",
+        familyName: "Leasing & Tenant Operations",
+        file: "topics/customer-preferences.html",
+        x: 940,
+        y: 520,
+        level: 3,
+        prerequisites: ["building-usefulness"],
+        summary: "Tenant ESG certifications, MERV-13 air filtration, and transit access."
+      },
+
+      // Level 4: Execution Schedule (Bottom)
       {
         id: "lease-timing-requirements",
         title: "Lease Timing & Delivery",
         family: "Leasing",
         familyName: "Leasing & Tenant Operations",
         file: "topics/lease-timing-requirements.html",
-        x: 1200,
-        y: 990,
+        x: 1120,
+        y: 720,
+        level: 4,
         prerequisites: ["customer-preferences", "tenant-improvements"],
         summary: "Construction permitting, substantial completion milestones, and rent commencement."
       }
     ];
 
-    // Clusters layout
+    // Family Clusters definitions
     const CLUSTERS = [
       {
+        id: "cluster-val",
         family: "Valuation",
-        title: "📈 Valuation & Underwriting Family",
-        x: 100,
-        y: 50,
-        width: 1060,
-        height: 520,
+        title: "📈 Valuation & Underwriting",
+        x: 80,
+        y: 30,
+        width: 760,
+        height: 680,
         class: "cluster-val"
       },
       {
+        id: "cluster-lease",
         family: "Leasing",
-        title: "🏢 Leasing & Tenant Operations Family",
-        x: 100,
-        y: 620,
-        width: 1380,
-        height: 600,
+        title: "🏢 Leasing & Tenant Operations",
+        x: 880,
+        y: 30,
+        width: 800,
+        height: 880,
         class: "cluster-lease"
       }
     ];
@@ -714,9 +809,10 @@
     let progress = {};
     let selectedTopicId = "cash-flow";
     let fileHandle = null;
+    let collapsedFamilies = { Valuation: false, Leasing: false };
 
     // Canvas Pan/Zoom State
-    let scale = 0.85;
+    let scale = 0.68;
     let panX = 40;
     let panY = 20;
     let isDragging = false;
@@ -753,7 +849,7 @@
 
       // Pan Listeners
       canvasContainer.addEventListener("mousedown", (e) => {
-        if (e.target.closest(".node-card") || e.target.closest(".canvas-controls")) return;
+        if (e.target.closest(".node-card") || e.target.closest(".canvas-controls") || e.target.closest(".btn-cluster-toggle")) return;
         isDragging = true;
         dragStartX = e.clientX - panX;
         dragStartY = e.clientY - panY;
@@ -770,7 +866,7 @@
         isDragging = false;
       });
 
-      // Smooth Mouse Wheel Zoom
+      // Mouse Wheel Zoom
       canvasContainer.addEventListener("wheel", (e) => {
         e.preventDefault();
         const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
@@ -778,7 +874,7 @@
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        const newScale = Math.min(Math.max(scale * zoomFactor, 0.4), 1.6);
+        const newScale = Math.min(Math.max(scale * zoomFactor, 0.35), 1.6);
         panX = mouseX - (mouseX - panX) * (newScale / scale);
         panY = mouseY - (mouseY - panY) * (newScale / scale);
         scale = newScale;
@@ -786,26 +882,72 @@
       }, { passive: false });
     }
 
-    // =========================================================================
-    // CANVAS RENDERING
-    // =========================================================================
     function applyTransform() {
       canvasWorld.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
     }
 
+    // =========================================================================
+    // CLUSTER BOXES & COLLAPSE LOGIC
+    // =========================================================================
     function renderClusters() {
       CLUSTERS.forEach(cluster => {
         const div = document.createElement("div");
+        div.id = cluster.id;
         div.className = `cluster-box ${cluster.class}`;
         div.style.left = `${cluster.x}px`;
         div.style.top = `${cluster.y}px`;
         div.style.width = `${cluster.width}px`;
         div.style.height = `${cluster.height}px`;
-        div.innerHTML = `<div class="cluster-label">${cluster.title}</div>`;
+
+        const count = TOPICS.filter(t => t.family === cluster.family).length;
+        const mastered = TOPICS.filter(t => t.family === cluster.family && !!progress[t.id]).length;
+
+        div.innerHTML = `
+          <div class="cluster-header">
+            <div class="cluster-title-wrap">
+              <h2 class="cluster-label">${cluster.title}</h2>
+              <span class="cluster-tag" id="tag-${cluster.family}">${mastered}/${count} Mastered</span>
+            </div>
+            <button class="btn-cluster-toggle" onclick="toggleClusterCollapse('${cluster.family}')">
+              <span id="icon-collapse-${cluster.family}">−</span>
+              <span id="text-collapse-${cluster.family}">Collapse</span>
+            </button>
+          </div>
+        `;
         canvasWorld.appendChild(div);
       });
     }
 
+    function toggleClusterCollapse(family) {
+      collapsedFamilies[family] = !collapsedFamilies[family];
+      const isCollapsed = collapsedFamilies[family];
+
+      const clusterObj = CLUSTERS.find(c => c.family === family);
+      const clusterEl = document.getElementById(clusterObj.id);
+      const iconEl = document.getElementById(`icon-collapse-${family}`);
+      const textEl = document.getElementById(`text-collapse-${family}`);
+
+      if (clusterEl) {
+        clusterEl.classList.toggle("collapsed", isCollapsed);
+      }
+      if (iconEl) iconEl.textContent = isCollapsed ? "+" : "−";
+      if (textEl) textEl.textContent = isCollapsed ? "Expand" : "Collapse";
+
+      // Hide/Show node cards belonging to this family
+      TOPICS.filter(t => t.family === family).forEach(t => {
+        const nodeEl = document.getElementById(`node-${t.id}`);
+        if (nodeEl) {
+          nodeEl.classList.toggle("hidden-by-collapse", isCollapsed);
+        }
+      });
+
+      // Redraw SVG arrows
+      renderDependencyArrows();
+    }
+
+    // =========================================================================
+    // TOPIC NODE CARDS
+    // =========================================================================
     function renderNodes() {
       TOPICS.forEach(topic => {
         const isMastered = !!progress[topic.id];
@@ -823,7 +965,7 @@
 
         card.innerHTML = `
           <div class="node-header">
-            <span class="node-badge">${topic.family}</span>
+            <span class="node-badge">Lvl ${topic.level} • ${topic.family}</span>
             <span id="status-${topic.id}">${statusMarkup}</span>
           </div>
           <div class="node-title">${topic.title}</div>
@@ -835,22 +977,37 @@
       });
     }
 
+    // =========================================================================
+    // TOP-TO-BOTTOM SVG DEPENDENCY ARROWS
+    // =========================================================================
     function renderDependencyArrows() {
+      // Clear existing paths
+      while (canvasSvg.childNodes.length > 2) { // keep <defs>
+        canvasSvg.removeChild(canvasSvg.lastChild);
+      }
+
       TOPICS.forEach(topic => {
+        // If child family is collapsed, hide incoming arrows
+        if (collapsedFamilies[topic.family]) return;
+
         topic.prerequisites.forEach(prereqId => {
           const parent = TOPICS.find(t => t.id === prereqId);
           if (!parent) return;
 
-          const startX = parent.x + 236;
-          const startY = parent.y + 45;
-          const endX = topic.x;
-          const endY = topic.y + 45;
+          // If parent family is collapsed, hide outgoing arrow
+          if (collapsedFamilies[parent.family]) return;
 
-          const dx = endX - startX;
-          const cp1X = startX + dx * 0.5;
-          const cp1Y = startY;
-          const cp2X = startX + dx * 0.5;
-          const cp2Y = endY;
+          // Connect from BOTTOM center of parent to TOP center of child
+          const startX = parent.x + (CARD_WIDTH / 2);
+          const startY = parent.y + CARD_HEIGHT;
+          const endX = topic.x + (CARD_WIDTH / 2);
+          const endY = topic.y - 4; // slight gap for arrowhead
+
+          const dy = endY - startY;
+          const cp1X = startX;
+          const cp1Y = startY + Math.max(dy * 0.45, 30);
+          const cp2X = endX;
+          const cp2Y = endY - Math.max(dy * 0.45, 30);
 
           const isValuation = topic.family === "Valuation";
           const markerColor = isValuation ? "url(#arrow-blue)" : "url(#arrow-green)";
@@ -950,6 +1107,14 @@
         }
       });
 
+      // Update cluster badges
+      CLUSTERS.forEach(c => {
+        const count = TOPICS.filter(t => t.family === c.family).length;
+        const mastered = TOPICS.filter(t => t.family === c.family && !!progress[t.id]).length;
+        const tagEl = document.getElementById(`tag-${c.family}`);
+        if (tagEl) tagEl.textContent = `${mastered}/${count} Mastered`;
+      });
+
       updateMasteryButton(progress[selectedTopicId]);
       updateProgressDisplay();
       saveProgressToLocalStorage();
@@ -979,7 +1144,7 @@
       applyTransform();
     }
     function zoomOut() {
-      scale = Math.max(scale / 1.2, 0.4);
+      scale = Math.max(scale / 1.2, 0.35);
       applyTransform();
     }
     function resetZoom() {
@@ -987,8 +1152,8 @@
       applyTransform();
     }
     function fitView() {
-      scale = 0.72;
-      panX = 30;
+      scale = 0.62;
+      panX = 35;
       panY = 20;
       applyTransform();
     }
@@ -1087,6 +1252,14 @@
             : (isLocked ? '<span class="status-badge status-locked">🔒 Locked</span>' : '<span class="status-badge status-ready">○ Ready</span>');
         }
       });
+
+      CLUSTERS.forEach(c => {
+        const count = TOPICS.filter(t => t.family === c.family).length;
+        const mastered = TOPICS.filter(t => t.family === c.family && !!progress[t.id]).length;
+        const tagEl = document.getElementById(`tag-${c.family}`);
+        if (tagEl) tagEl.textContent = `${mastered}/${count} Mastered`;
+      });
+
       updateMasteryButton(!!progress[selectedTopicId]);
     }
 
@@ -1098,8 +1271,7 @@
 
       CLUSTERS.forEach(cluster => {
         const clusterTopics = TOPICS.filter(t => t.family === cluster.family);
-        const icon = cluster.family === "Valuation" ? "📈" : "🏢";
-        md += `## ${icon} ${cluster.title}\n\n`;
+        md += `## ${cluster.title}\n\n`;
 
         clusterTopics.forEach(t => {
           const checked = progress[t.id] ? "x" : " ";
