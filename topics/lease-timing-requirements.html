@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lease Timing & Delivery Requirements - Leasing & Operations</title>
+  <!-- Topic Metadata:
+    title: Lease Timing & Requirements
+    family: Leasing & Tenant Operations
+    id: lease-timing-requirements
+    prerequisites: ["customer-preferences", "tenant-improvements"]
+    summary: Critical milestone schedules, delivery dates, rent commencement triggers, and delay penalties.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .timeline { border-left: 2px solid #cbd5e1; padding-left: 18px; margin: 20px 0 20px 10px; }
+    .timeline-step { position: relative; margin-bottom: 16px; }
+    .timeline-step::before { content: ""; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #10b981; border: 2px solid #fff; }
+    .timeline-title { font-weight: 600; font-size: 13px; color: #0f172a; }
+    .timeline-desc { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #ECFDF5; border-color: #10B981; border-bottom: 2px solid #059669; color: #065F46; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Leasing & Tenant Operations</span>
+  <h1>Lease Timing & Delivery Requirements</h1>
+  <p class="lead">
+    Signing a lease agreement is only the beginning. The operational schedule that converts a signed document into rent payments requires careful coordination of construction and municipal approvals.
+  </p>
+
+  <p>
+    Tenants condition rent payments on the landlord achieving 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-substantial', this)">
+        <span>substantial_completion</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-substantial" class="popover-bubble">
+        <strong style="color: #059669; font-family: monospace; display: block; margin-bottom: 3px;">substantial completion</strong>
+        The construction stage when space is sufficiently finished with a Certificate of Occupancy (CO) so the tenant can legally occupy for business.
+      </span>
+    </span> by a contractual target date.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-title">1. Execution & Permitting (Weeks 1 - 6)</div>
+      <div class="timeline-desc">Architectural plan submittal, city building permits, contractor bids.</div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-title">2. Space Delivery & Buildout (Weeks 7 - 18)</div>
+      <div class="timeline-desc">Demolition, framing, MEP installation, finishes, and final city inspections.</div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-title">3. Rent Commencement Date (RCD)</div>
+      <div class="timeline-desc">Delivery of Certificate of Occupancy (CO); tenant begins paying contractual rent.</div>
+    </div>
+  </div>
+
+  <p>
+    Failing to deliver space on schedule can trigger liquidated damages or tenant termination options, highlighting the critical link between leasing and property operations.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

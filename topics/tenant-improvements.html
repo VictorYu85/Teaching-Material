@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenant Improvements (TIs) & Leasing Capital - Leasing & Operations</title>
+  <!-- Topic Metadata:
+    title: Tenant Improvements (TIs)
+    family: Leasing & Tenant Operations
+    id: tenant-improvements
+    prerequisites: ["leasing-overview", "cash-flow"]
+    summary: Landlord capital allowances, turnkey buildouts, and leasing commission amortizations.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .calc-box { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #059669; padding: 14px 16px; border-radius: 6px; margin: 16px 0; font-size: 13px; font-family: ui-monospace, Menlo, monospace; color: #0f172a; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #ECFDF5; border-color: #10B981; border-bottom: 2px solid #059669; color: #065F46; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Leasing & Tenant Operations</span>
+  <h1>Tenant Improvements (TIs)</h1>
+  <p class="lead">
+    Tenant Improvements (TIs) represent the capital a landlord commits to customize raw or vacated commercial space for a new tenant's specific operations.
+  </p>
+
+  <p>
+    TIs are typically structured as a dollar-per-square-foot allowance (e.g. $45/sq ft) or as a 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-turnkey', this)">
+        <span>turnkey_buildout</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-turnkey" class="popover-bubble">
+        <strong style="color: #059669; font-family: monospace; display: block; margin-bottom: 3px;">turnkey buildout</strong>
+        Landlord assumes full responsibility and cost risk for constructing the space to an agreed architectural plan.
+      </span>
+    </span>.
+  </p>
+
+  <div class="calc-box">
+    <strong>Effective Rent Impact:</strong><br />
+    In a 10,000 sq ft office lease at $35/sq ft for 5 years:<br />
+    • Gross Lease Revenue: $1,750,000<br />
+    • Upfront TI Allowance ($50/sq ft): -$500,000<br />
+    • Leasing Broker Commissions (6%): -$105,000<br />
+    = <strong>Net Effective Landlord Take: $1,145,000 ($22.90/sq ft/yr)</strong>
+  </div>
+
+  <p>
+    Because TI checks are paid upfront before rent starts flowing, landlords must maintain dedicated liquidity reserves in their annual cash flow models.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rent Roll Analysis - Valuation & Underwriting</title>
+  <!-- Topic Metadata:
+    title: Rent Roll Analysis
+    family: Valuation & Underwriting
+    id: rent-roll
+    prerequisites: ["cash-flow"]
+    summary: Detailed audit of tenant rosters, contract rents, lease expirations, and credit risk.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .table-sample { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+    .table-sample th, .table-sample td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+    .table-sample th { background: #f8fafc; font-weight: 600; color: #475569; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #EFF6FF; border-color: #3B82F6; border-bottom: 2px solid #2563EB; color: #1D4ED8; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Valuation & Underwriting</span>
+  <h1>Rent Roll Analysis</h1>
+  <p class="lead">
+    The rent roll is the definitive ledger of an asset's income. It documents who occupies each unit or suite, how much they pay, and when their leases expire.
+  </p>
+
+  <p>
+    Underwriters scrutinize the rent roll to uncover 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-rollover', this)">
+        <span>rollover_risk</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-rollover" class="popover-bubble">
+        <strong style="color: #2563eb; font-family: monospace; display: block; margin-bottom: 3px;">lease rollover risk</strong>
+        The financial risk that major tenants will vacate at the end of their lease terms, creating sudden vacancy and leasing costs.
+      </span>
+    </span> and compare current in-place collections against prevailing market rates.
+  </p>
+
+  <table class="table-sample">
+    <thead>
+      <tr>
+        <th>Unit / Suite</th>
+        <th>Tenant Name</th>
+        <th>Sq Ft</th>
+        <th>Monthly Rent</th>
+        <th>Lease Expiration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Suite 101</td>
+        <td>Apex Consulting LLC</td>
+        <td>2,400</td>
+        <td>$5,800</td>
+        <td>Dec 2028</td>
+      </tr>
+      <tr>
+        <td>Suite 102</td>
+        <td>Metro Dental Care</td>
+        <td>1,850</td>
+        <td>$4,625</td>
+        <td>Aug 2031</td>
+      </tr>
+      <tr>
+        <td>Suite 103</td>
+        <td>Vacant (Market Ready)</td>
+        <td>1,200</td>
+        <td>$0 ($2,700 pro forma)</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Cross-referencing the rent roll against historical bank statements is essential to verify actual collection rates versus theoretical contractual rents.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Rate of Return (IRR) - Valuation & Underwriting</title>
+  <!-- Topic Metadata:
+    title: Internal Rate of Return (IRR)
+    family: Valuation & Underwriting
+    id: irr
+    prerequisites: ["cash-flow", "cap-rate"]
+    summary: Comprehensive annualized compound return over the entire investment holding period.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .formula-box { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #2563eb; padding: 14px 16px; border-radius: 6px; margin: 18px 0; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #0f172a; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #EFF6FF; border-color: #3B82F6; border-bottom: 2px solid #2563EB; color: #1D4ED8; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Valuation & Underwriting</span>
+  <h1>Internal Rate of Return (IRR)</h1>
+  <p class="lead">
+    While Cap Rate provides a single-year snapshot, the Internal Rate of Return (IRR) evaluates the true time-weighted profitability across an asset's multi-year holding horizon.
+  </p>
+
+  <p>
+    IRR solves for the exact discount rate that forces the Net Present Value (NPV) of all future cash flows (annual operating cash flow plus the final 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-reversion', this)">
+        <span>exit_proceeds</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-reversion" class="popover-bubble">
+        <strong style="color: #2563eb; font-family: monospace; display: block; margin-bottom: 3px;">reversion / exit proceeds</strong>
+        Net capital received upon selling the property at the end of the hold period, minus broker fees and loan payoff.
+      </span>
+    </span>) to equal the initial equity investment.
+  </p>
+
+  <div class="formula-box">
+    <strong>IRR Mathematical Relationship:</strong><br />
+    0 = CF₀ + [ CF₁ / (1 + IRR)¹ ] + [ CF₂ / (1 + IRR)² ] + ... + [ CFₙ / (1 + IRR)ⁿ ]<br /><br />
+    <em>Where CF₀ is negative initial equity, CF₁..n-1 are annual cash flows, and CFₙ includes sales proceeds.</em>
+  </div>
+
+  <p>
+    Institutional private equity sponsors target levered net IRRs typically ranging between 12% and 18% depending on whether the investment profile is Core, Value-Add, or Opportunistic.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

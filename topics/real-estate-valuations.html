@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Estate Valuations - Valuation & Underwriting</title>
+  <!-- Topic Metadata:
+    title: Real Estate Valuations
+    family: Valuation & Underwriting
+    id: real-estate-valuations
+    prerequisites: []
+    summary: Foundational approaches to assessing the economic worth of real property.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 18px 0; }
+    .card-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+    .card-title { font-weight: 600; font-size: 13px; color: #0f172a; margin-bottom: 4px; }
+    .card-desc { font-size: 12px; color: #64748b; margin: 0; }
+    /* Monospace Keycaps */
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #EFF6FF; border-color: #3B82F6; border-bottom: 2px solid #2563EB; color: #1D4ED8; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Valuation & Underwriting</span>
+  <h1>Real Estate Valuations</h1>
+  <p class="lead">
+    Determining the objective fair market value of commercial and residential property requires synthesizing three core valuation methodologies.
+  </p>
+
+  <p>
+    Unlike publicly traded securities with immediate tick-by-tick prices, real estate relies on appraisals grounded in 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-comparables', this)">
+        <span>sales_comps</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-comparables" class="popover-bubble">
+        <strong style="color: #2563eb; font-family: monospace; display: block; margin-bottom: 3px;">sales_comps (comparable sales)</strong>
+        Recent transactions of similar assets in the immediate trade area adjusted for square footage, age, and condition.
+      </span>
+    </span>, replacement construction costs, and income capitalization.
+  </p>
+
+  <div class="card-grid">
+    <div class="card-item">
+      <div class="card-title">1. Income Approach</div>
+      <p class="card-desc">Values the asset based on the present worth of future rental income streams (Cap Rate & DCF).</p>
+    </div>
+    <div class="card-item">
+      <div class="card-title">2. Sales Comparison</div>
+      <p class="card-desc">Benchmarks price per unit or price per sq ft against verified recent market transactions.</p>
+    </div>
+    <div class="card-item">
+      <div class="card-title">3. Cost Approach</div>
+      <p class="card-desc">Estimates what it would cost to buy the land and reconstruct the physical improvements today.</p>
+    </div>
+  </div>
+
+  <p>
+    In commercial underwriting, the <strong>Income Approach</strong> is prioritized because investors purchase the contractual earning power of tenant leases.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

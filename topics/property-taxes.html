@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Taxes & Reassessments - Leasing & Operations</title>
+  <!-- Topic Metadata:
+    title: Property Taxes & Reassessments
+    family: Leasing & Tenant Operations
+    id: property-taxes
+    prerequisites: ["leasing-overview", "real-estate-valuations"]
+    summary: Local ad valorem taxation, millage rates, reassessment risk upon transfer, and lease pass-throughs.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .tax-box { background: #fefce8; border: 1px solid #fef08a; border-left: 3px solid #ca8a04; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: 13px; color: #854d0e; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #ECFDF5; border-color: #10B981; border-bottom: 2px solid #059669; color: #065F46; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Leasing & Tenant Operations</span>
+  <h1>Property Taxes & Reassessments</h1>
+  <p class="lead">
+    Property taxes are typically the single largest recurring line item in a commercial property's operating expense budget.
+  </p>
+
+  <p>
+    When a property transfers ownership at a price higher than its current county tax valuation, the county assessor initiates a 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-reassessment', this)">
+        <span>tax_reassessment</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-reassessment" class="popover-bubble">
+        <strong style="color: #059669; font-family: monospace; display: block; margin-bottom: 3px;">tax reassessment</strong>
+        Adjustment of the property's taxable assessed value to reflect the recent purchase price, often substantially increasing future tax bills.
+      </span>
+    </span>.
+  </p>
+
+  <div class="tax-box">
+    <strong>⚠️ Underwriting Trap:</strong> Inexperienced buyers model historic property taxes rather than pro-forma reassessed taxes. In a $10M acquisition of a building previously assessed at $4M, real estate taxes can more than double in Year 2!
+  </div>
+
+  <p>
+    Under Triple Net (NNN) leases, tax increases are passed directly through to tenants. Under Gross leases, the landlord absorbs 100% of the tax shock, directly compressing NOI and cash flow.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>

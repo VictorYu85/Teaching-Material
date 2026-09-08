@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commercial Leasing Fundamentals - Leasing & Operations</title>
+  <!-- Topic Metadata:
+    title: Commercial Leasing Fundamentals
+    family: Leasing & Tenant Operations
+    id: leasing-overview
+    prerequisites: []
+    summary: Foundational lease structures, full service vs net leases, and landlord-tenant covenants.
+  -->
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1e293b; line-height: 1.65; padding: 24px; margin: 0; }
+    .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; }
+    .lead { font-size: 15px; color: #475569; margin-bottom: 20px; }
+    .lease-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+    .lease-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+    .lease-title { font-weight: 600; font-size: 13px; color: #065f46; margin-bottom: 4px; }
+    .keycap-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; margin: 0 1px; background: #FFFFFF; border: 1px solid #CBD5E1; border-bottom: 2px solid #94A3B8; border-radius: 5px; color: #334155; font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; font-weight: 600; cursor: pointer; vertical-align: baseline; line-height: 1.35; white-space: nowrap; }
+    .keycap-tag:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .keycap-tag.active { background: #ECFDF5; border-color: #10B981; border-bottom: 2px solid #059669; color: #065F46; }
+    .popover-wrap { display: inline; position: relative; }
+    .popover-bubble { display: none; position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%); width: 275px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15); font-size: 13px; line-height: 1.45; color: #334155; z-index: 100; text-align: left; white-space: normal; }
+    .popover-bubble.show { display: block; }
+    .popover-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #FFFFFF transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <span class="topic-badge">Leasing & Tenant Operations</span>
+  <h1>Commercial Leasing Fundamentals</h1>
+  <p class="lead">
+    A commercial property's value is directly derived from the contractual agreements executed between the landlord and occupying tenants.
+  </p>
+
+  <p>
+    The lease agreement establishes who pays for day-to-day property expenses, which is summarized through 
+    <span class="popover-wrap">
+      <button type="button" class="keycap-tag" onclick="togglePopover('pop-nnn', this)">
+        <span>nnn_lease</span> <span style="font-size: 10px; opacity: 0.6;">›</span>
+      </button>
+      <span id="pop-nnn" class="popover-bubble">
+        <strong style="color: #059669; font-family: monospace; display: block; margin-bottom: 3px;">triple net (nnn)</strong>
+        Tenant pays base rent PLUS all three operating expense categories: property taxes, building insurance, and common area maintenance.
+      </span>
+    </span> versus gross structures.
+  </p>
+
+  <div class="lease-grid">
+    <div class="lease-card">
+      <div class="lease-title">Full Service Gross (FSG)</div>
+      <p style="font-size: 12px; color: #64748b; margin: 0;">Tenant pays one all-inclusive rent. Landlord pays all taxes, insurance, and utilities.</p>
+    </div>
+    <div class="lease-card">
+      <div class="lease-title">Modified Gross (MG)</div>
+      <p style="font-size: 12px; color: #64748b; margin: 0;">Tenant pays base rent and pays increases in operational costs over a baseline year.</p>
+    </div>
+    <div class="lease-card">
+      <div class="lease-title">Triple Net (NNN)</div>
+      <p style="font-size: 12px; color: #64748b; margin: 0;">Tenant reimburses 100% of property taxes, building insurance, and CAM maintenance.</p>
+    </div>
+  </div>
+
+  <p>
+    Choosing the right lease structure shifts operational cost inflation risk either toward the landlord or onto the tenant.
+  </p>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShow = el.classList.contains('show');
+      document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      if (!isShow) { el.classList.add('show'); btn.classList.add('active'); }
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(b => b.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>
