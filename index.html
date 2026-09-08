@@ -6,21 +6,29 @@
   <title>Real Estate Learning Hub & Interactive Topic Tree</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --border: #334155;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --blue: #3b82f6;
-      --emerald: #10b981;
-      --amber: #f59e0b;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --blue-accent: #0284c7;
+      --blue-light: #eff6ff;
+      --blue-border: #bfdbfe;
+      --blue-line: #38bdf8;
+      --green-accent: #059669;
+      --green-light: #ecfdf5;
+      --green-border: #a7f3d0;
+      --green-line: #34d399;
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow: hidden;
@@ -29,7 +37,7 @@
       flex-direction: column;
     }
 
-    /* Top Navigation Bar */
+    /* Top Navigation Bar: Clean, white editorial header */
     header {
       height: 56px;
       background: var(--surface);
@@ -40,76 +48,87 @@
       padding: 0 20px;
       z-index: 50;
       flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 600;
+      font-size: 15px;
       letter-spacing: -0.01em;
+      color: var(--text);
     }
     .brand-badge {
-      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 11px;
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      font-weight: 600;
+      background: var(--blue-light);
+      color: var(--blue-accent);
+      border: 1px solid var(--blue-border);
       padding: 2px 7px;
-      border-radius: 4px;
+      border-radius: 5px;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
     .progress-pill {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.6);
+      gap: 10px;
+      background: var(--surface-subtle);
       border: 1px solid var(--border);
       padding: 5px 12px;
       border-radius: 9999px;
       font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
     }
     .progress-bar-wrap {
       width: 80px;
       height: 6px;
-      background: #334155;
+      background: #e2e8f0;
       border-radius: 3px;
       overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
-      background: #10b981;
+      background: var(--green-accent);
       width: 0%;
       transition: width 0.3s ease;
+      border-radius: 3px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #334155;
-      border: 1px solid #475569;
-      color: var(--text);
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      color: var(--text-secondary);
       padding: 6px 12px;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+      transition: all 0.12s ease;
     }
-    .btn:hover { background: #475569; }
+    .btn:hover {
+      background: var(--surface-subtle);
+      color: var(--text);
+      border-color: #94a3b8;
+    }
     .btn-sync.linked {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.4);
-      color: #34d399;
+      background: var(--green-light);
+      border-color: var(--green-border);
+      color: var(--green-accent);
     }
 
-    /* Main Workspace: Canvas + Split Reader */
+    /* Main Workspace */
     .workspace {
       flex: 1;
       display: flex;
@@ -117,12 +136,12 @@
       position: relative;
     }
 
-    /* 2D Canvas Container (Obsidian Canvas style) */
+    /* 2D Canvas Container: Light off-white with delicate slate dot grid */
     .canvas-container {
       flex: 1;
       position: relative;
-      background-color: #0b0f19;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-color: #f8fafc;
+      background-image: radial-gradient(rgba(100, 116, 139, 0.16) 1px, transparent 1px);
       background-size: 24px 24px;
       overflow: hidden;
       cursor: grab;
@@ -152,42 +171,42 @@
       z-index: 10;
     }
 
-    /* Cluster Background Boxes */
+    /* Soft Halos & Cluster Boundaries */
     .cluster-box {
       position: absolute;
       border-radius: 16px;
-      padding: 20px;
+      padding: 22px;
       pointer-events: auto;
       z-index: 5;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
     .cluster-val {
-      background: rgba(30, 58, 138, 0.12);
-      border: 2px dashed rgba(96, 165, 250, 0.3);
+      background: rgba(2, 132, 199, 0.03);
+      border: 2px dashed rgba(186, 230, 253, 0.9);
     }
     .cluster-lease {
-      background: rgba(6, 78, 59, 0.12);
-      border: 2px dashed rgba(52, 211, 153, 0.3);
+      background: rgba(5, 150, 105, 0.03);
+      border: 2px dashed rgba(167, 243, 208, 0.9);
     }
     .cluster-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       margin-bottom: 8px;
     }
-    .cluster-val .cluster-label { color: #93c5fd; }
-    .cluster-lease .cluster-label { color: #6ee7b7; }
+    .cluster-val .cluster-label { color: #0284c7; }
+    .cluster-lease .cluster-label { color: #059669; }
 
-    /* Topic Node Cards on Canvas */
+    /* Topic Node Cards: Pure white card with delicate 1px border */
     .node-card {
       position: absolute;
-      width: 230px;
-      background: #1e293b;
-      border: 1px solid #334155;
+      width: 232px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
       border-radius: 10px;
       padding: 12px 14px;
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.03);
       pointer-events: auto;
       cursor: pointer;
       z-index: 20;
@@ -195,18 +214,19 @@
     }
     .node-card:hover {
       transform: translateY(-2px);
-      border-color: #60a5fa;
-      box-shadow: 0 12px 24px -4px rgba(59, 130, 246, 0.25);
+      border-color: #94a3b8;
+      box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.1);
     }
     .node-card.selected {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px #3b82f6, 0 12px 28px rgba(0, 0, 0, 0.5);
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px #bae6fd, 0 8px 20px -2px rgba(2, 132, 199, 0.15);
     }
     .node-card.completed {
-      border-left: 4px solid #10b981;
+      border-left: 3px solid #059669;
     }
     .node-card.locked {
-      opacity: 0.75;
+      opacity: 0.8;
+      background: #fbfcfe;
     }
 
     .node-header {
@@ -216,29 +236,38 @@
       margin-bottom: 6px;
     }
     .node-badge {
-      font-family: ui-monospace, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 10px;
       padding: 1px 5px;
       border-radius: 4px;
       text-transform: uppercase;
       font-weight: 600;
     }
-    .node-val .node-badge { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
-    .node-lease .node-badge { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+    .node-val .node-badge {
+      background: #eff6ff;
+      color: #0284c7;
+      border: 1px solid #dbeafe;
+    }
+    .node-lease .node-badge {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #d1fae5;
+    }
 
     .node-status {
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 600;
     }
     .node-title {
       font-size: 13px;
       font-weight: 600;
-      color: #f8fafc;
+      color: #0f172a;
       margin-bottom: 4px;
       line-height: 1.35;
     }
     .node-desc {
       font-size: 11px;
-      color: var(--text-muted);
+      color: #64748b;
       line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -246,24 +275,25 @@
       overflow: hidden;
     }
 
-    /* Floating Canvas Controls */
+    /* Floating Canvas Controls: Frosted neutral glass */
     .canvas-controls {
       position: absolute;
       bottom: 20px;
       left: 20px;
       display: flex;
-      gap: 6px;
-      background: rgba(30, 41, 59, 0.85);
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       padding: 4px;
       border-radius: 8px;
       z-index: 40;
+      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
     }
     .ctrl-btn {
       background: transparent;
       border: none;
-      color: var(--text);
+      color: var(--text-secondary);
       width: 32px;
       height: 32px;
       border-radius: 6px;
@@ -271,22 +301,27 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
+      transition: background 0.1s;
     }
-    .ctrl-btn:hover { background: #334155; }
+    .ctrl-btn:hover {
+      background: var(--surface-subtle);
+      color: var(--text);
+    }
 
     /* Split-Screen Lesson Reader Panel */
     .reader-panel {
-      width: 520px;
+      width: 530px;
       background: #ffffff;
       color: #1e293b;
-      border-left: 1px solid #cbd5e1;
+      border-left: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       z-index: 45;
       transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      box-shadow: -4px 0 16px -4px rgba(15, 23, 42, 0.04);
     }
     .reader-panel.collapsed {
       width: 0;
@@ -295,8 +330,8 @@
 
     .reader-header {
       background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -312,7 +347,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #2563eb;
+      color: var(--blue-accent);
     }
     .reader-title {
       font-size: 16px;
@@ -335,25 +370,29 @@
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
-      border: 1px solid #cbd5e1;
-      background: #f1f5f9;
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
       color: #334155;
       cursor: pointer;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
       transition: all 0.15s;
     }
-    .btn-complete:hover { background: #e2e8f0; }
+    .btn-complete:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
     .btn-complete.done {
-      background: #ecfdf5;
-      border-color: #10b981;
-      color: #047857;
+      background: var(--green-light);
+      border-color: var(--green-border);
+      color: var(--green-accent);
     }
 
-    /* Prerequisite soft warning alert */
+    /* Soft Prerequisite Warning Alert */
     .prereq-banner {
       background: #fffbeb;
       border-bottom: 1px solid #fef3c7;
       color: #92400e;
-      padding: 8px 18px;
+      padding: 9px 20px;
       font-size: 12px;
       display: flex;
       align-items: center;
@@ -372,10 +411,10 @@
       top: 50%;
       left: -28px;
       transform: translateY(-50%);
-      background: var(--surface);
+      background: #ffffff;
       border: 1px solid var(--border);
       border-right: none;
-      color: var(--text);
+      color: #64748b;
       width: 28px;
       height: 48px;
       border-radius: 8px 0 0 8px;
@@ -385,12 +424,17 @@
       cursor: pointer;
       font-size: 14px;
       z-index: 60;
+      box-shadow: -2px 0 6px rgba(15, 23, 42, 0.04);
+      transition: color 0.1s;
+    }
+    .reader-toggle-tab:hover {
+      color: #0f172a;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Top Navigation Header -->
   <header>
     <div class="brand">
       <span>Topic Tree & Learning Hub</span>
@@ -398,7 +442,7 @@
     </div>
 
     <div class="header-actions">
-      <!-- Progress Bar -->
+      <!-- Progress Pill -->
       <div class="progress-pill">
         <span id="progress-text">Mastery: 0 / 12 (0%)</span>
         <div class="progress-bar-wrap">
@@ -406,13 +450,13 @@
         </div>
       </div>
 
-      <!-- File System Access Link Button -->
-      <button id="btn-link-file" class="btn btn-sync" onclick="handleLinkProgressFile()">
+      <!-- File Binding Button -->
+      <button id="btn-link-file" class="btn btn-sync" onclick="handleLinkProgressFile()" title="Sync directly with your local progress.md">
         <span>📁</span> <span id="link-file-label">Link progress.md</span>
       </button>
 
-      <!-- Zoom Reset -->
-      <button class="btn" onclick="fitView()">
+      <!-- Fit View -->
+      <button class="btn" onclick="fitView()" title="Fit entire map on screen">
         <span>🎯</span> <span>Fit Map</span>
       </button>
     </div>
@@ -424,29 +468,26 @@
     <!-- 2D Canvas Viewport -->
     <div id="canvas-container" class="canvas-container">
       <div id="canvas-world" class="canvas-world">
-        <!-- SVG for Curved Dependency Lines -->
+        <!-- SVG for Dependency Connecting Lines -->
         <svg id="canvas-svg" class="canvas-svg">
           <defs>
             <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#60a5fa" />
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7" />
             </marker>
-            <marker id="arrow-emerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399" />
-            </marker>
-            <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669" />
             </marker>
           </defs>
         </svg>
 
-        <!-- Dynamic Cluster Boxes and Nodes will be mounted here -->
+        <!-- Clusters & Nodes rendered by script -->
       </div>
 
-      <!-- Canvas Zoom / Pan Controls -->
+      <!-- Canvas Pan/Zoom Controls -->
       <div class="canvas-controls">
         <button class="ctrl-btn" onclick="zoomIn()" title="Zoom In">+</button>
         <button class="ctrl-btn" onclick="zoomOut()" title="Zoom Out">−</button>
-        <button class="ctrl-btn" onclick="resetZoom()" title="Reset Zoom">1:1</button>
+        <button class="ctrl-btn" onclick="resetZoom()" title="Reset Zoom 1:1">1:1</button>
         <button class="ctrl-btn" onclick="fitView()" title="Fit View">⛶</button>
       </div>
     </div>
@@ -472,13 +513,13 @@
         </div>
       </div>
 
-      <!-- Soft Prerequisite Warning Banner (visible when needed) -->
+      <!-- Soft Prerequisite Warning Banner -->
       <div id="prereq-banner" class="prereq-banner" style="display: none;">
         <span>⚠️</span>
-        <span id="prereq-message">Prerequisite recommendation: Complete foundational topics first.</span>
+        <span id="prereq-message">Suggested order: We recommend mastering prerequisites first.</span>
       </div>
 
-      <!-- Embedded Lesson Content Frame -->
+      <!-- Embedded Topic Lesson -->
       <iframe id="reader-frame" class="reader-frame" src="topics/cash-flow.html"></iframe>
     </div>
 
@@ -486,7 +527,7 @@
 
   <script>
     // =========================================================================
-    // TOPIC CURRICULUM REGISTRY & DEPENDENCY GRAPH MANIFEST
+    // TOPIC REGISTRY & DEPENDENCY GRAPH MANIFEST
     // =========================================================================
     const TOPICS = [
       // 1. Valuation Family
@@ -649,9 +690,9 @@
     ];
 
     // State
-    let progress = {}; // { [id]: boolean }
+    let progress = {};
     let selectedTopicId = "cash-flow";
-    let fileHandle = null; // FileSystemFileHandle for progress.md
+    let fileHandle = null;
 
     // Canvas Pan/Zoom State
     let scale = 0.85;
@@ -689,7 +730,7 @@
       selectTopic("cash-flow");
       updateProgressDisplay();
 
-      // Canvas Drag Listeners
+      // Pan Listeners
       canvasContainer.addEventListener("mousedown", (e) => {
         if (e.target.closest(".node-card") || e.target.closest(".canvas-controls")) return;
         isDragging = true;
@@ -708,7 +749,7 @@
         isDragging = false;
       });
 
-      // Mouse Wheel Zoom
+      // Smooth Mouse Wheel Zoom
       canvasContainer.addEventListener("wheel", (e) => {
         e.preventDefault();
         const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
@@ -716,7 +757,6 @@
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        // Zoom centered around mouse
         const newScale = Math.min(Math.max(scale * zoomFactor, 0.4), 1.6);
         panX = mouseX - (mouseX - panX) * (newScale / scale);
         panY = mouseY - (mouseY - panY) * (newScale / scale);
@@ -756,7 +796,9 @@
         card.style.left = `${topic.x}px`;
         card.style.top = `${topic.y}px`;
 
-        const statusIcon = isMastered ? "🟢" : (isLocked ? "🔒" : "⚪");
+        const statusIcon = isMastered 
+          ? '<span style="color: #059669; font-size: 11px;">✓ Done</span>' 
+          : (isLocked ? '<span style="color: #94a3b8; font-size: 11px;">🔒 Locked</span>' : '<span style="color: #64748b; font-size: 11px;">○ Ready</span>');
 
         card.innerHTML = `
           <div class="node-header">
@@ -778,11 +820,10 @@
           const parent = TOPICS.find(t => t.id === prereqId);
           if (!parent) return;
 
-          // Connect from right edge of parent to left edge of child
-          const startX = parent.x + 230;
-          const startY = parent.y + 45;
+          const startX = parent.x + 232;
+          const startY = parent.y + 44;
           const endX = topic.x;
-          const endY = topic.y + 45;
+          const endY = topic.y + 44;
 
           const dx = endX - startX;
           const cp1X = startX + dx * 0.5;
@@ -790,15 +831,16 @@
           const cp2X = startX + dx * 0.5;
           const cp2Y = endY;
 
-          const markerColor = topic.family === "Valuation" ? "url(#arrow-blue)" : "url(#arrow-emerald)";
-          const strokeColor = topic.family === "Valuation" ? "#60a5fa" : "#34d399";
+          const isValuation = topic.family === "Valuation";
+          const markerColor = isValuation ? "url(#arrow-blue)" : "url(#arrow-green)";
+          const strokeColor = isValuation ? "#7dd3fc" : "#6ee7b7";
 
           const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
           path.setAttribute("d", `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`);
           path.setAttribute("fill", "none");
           path.setAttribute("stroke", strokeColor);
           path.setAttribute("stroke-width", "2");
-          path.setAttribute("stroke-opacity", "0.5");
+          path.setAttribute("stroke-opacity", "0.85");
           path.setAttribute("marker-end", markerColor);
           path.id = `edge-${parent.id}-${topic.id}`;
 
@@ -820,17 +862,15 @@
       const topic = TOPICS.find(t => t.id === topicId);
       if (!topic) return;
 
-      // Update Node Highlight
       document.querySelectorAll(".node-card").forEach(n => n.classList.remove("selected"));
       const nodeEl = document.getElementById(`node-${topicId}`);
       if (nodeEl) nodeEl.classList.add("selected");
 
-      // Update Reader Info
       readerTitle.textContent = topic.title;
       readerFamily.textContent = topic.familyName;
+      readerFamily.style.color = topic.family === "Valuation" ? "#0284c7" : "#059669";
       readerFrame.src = topic.file;
 
-      // Update Prerequisite Warning Banner
       const prereqsMet = arePrereqsMet(topic);
       if (!prereqsMet) {
         const missing = topic.prerequisites.filter(pid => !progress[pid]).map(pid => {
@@ -843,10 +883,8 @@
         prereqBanner.style.display = "none";
       }
 
-      // Update Mastery Button State
       updateMasteryButton(!!progress[topicId]);
 
-      // Open reader if collapsed
       if (readerPanel.classList.contains("collapsed")) {
         toggleReader();
       }
@@ -868,18 +906,17 @@
       const isCurrentlyDone = !!progress[selectedTopicId];
       progress[selectedTopicId] = !isCurrentlyDone;
 
-      // Update Node in DOM
       const nodeEl = document.getElementById(`node-${selectedTopicId}`);
       const statusEl = document.getElementById(`status-${selectedTopicId}`);
       if (progress[selectedTopicId]) {
         if (nodeEl) nodeEl.classList.add("completed");
-        if (statusEl) statusEl.textContent = "🟢";
+        if (statusEl) statusEl.innerHTML = '<span style="color: #059669; font-size: 11px;">✓ Done</span>';
       } else {
         if (nodeEl) nodeEl.classList.remove("completed");
-        if (statusEl) statusEl.textContent = arePrereqsMet(TOPICS.find(t => t.id === selectedTopicId)) ? "⚪" : "🔒";
+        const met = arePrereqsMet(TOPICS.find(t => t.id === selectedTopicId));
+        if (statusEl) statusEl.innerHTML = met ? '<span style="color: #64748b; font-size: 11px;">○ Ready</span>' : '<span style="color: #94a3b8; font-size: 11px;">🔒 Locked</span>';
       }
 
-      // Update dependent nodes status icons
       TOPICS.forEach(t => {
         if (t.prerequisites.includes(selectedTopicId)) {
           const depStatusEl = document.getElementById(`status-${t.id}`);
@@ -887,7 +924,7 @@
           const met = arePrereqsMet(t);
           if (depNodeEl) depNodeEl.classList.toggle("locked", !met);
           if (depStatusEl && !progress[t.id]) {
-            depStatusEl.textContent = met ? "⚪" : "🔒";
+            depStatusEl.innerHTML = met ? '<span style="color: #64748b; font-size: 11px;">○ Ready</span>' : '<span style="color: #94a3b8; font-size: 11px;">🔒 Locked</span>';
           }
         }
       });
@@ -959,7 +996,7 @@
 
     async function handleLinkProgressFile() {
       if (!window.showOpenFilePicker) {
-        alert("Your browser does not support the File System Access API. Progress will be safely saved in localStorage instead, and you can download progress.md anytime.");
+        alert("Your browser does not support the File System Access API. Progress is saved in localStorage, and you can download progress.md anytime.");
         downloadProgressMarkdown();
         return;
       }
@@ -977,9 +1014,7 @@
         const file = await fileHandle.getFile();
         const text = await file.text();
 
-        // Parse existing checkmarks from progress.md
         TOPICS.forEach(topic => {
-          // Look for: - [x] **Title**
           const regex = new RegExp(`\\[(x|X)\\]\\s*\\*\\*${escapeRegex(topic.title)}\\*\\*`, "i");
           if (regex.test(text)) {
             progress[topic.id] = true;
@@ -990,15 +1025,12 @@
         updateProgressDisplay();
         renderNodesUpdate();
 
-        // Update UI Button
         const label = document.getElementById("link-file-label");
         const btn = document.getElementById("btn-link-file");
         label.textContent = "Synced with " + file.name;
         btn.classList.add("linked");
 
-        // Write immediately to keep in sync
         await syncWithFileIfBound();
-        alert(`Successfully linked to ${file.name}! Changes will now write directly to your file.`);
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error("Error linking file:", err);
@@ -1029,7 +1061,9 @@
           nodeEl.classList.toggle("locked", isLocked);
         }
         if (statusEl) {
-          statusEl.textContent = isMastered ? "🟢" : (isLocked ? "🔒" : "⚪");
+          statusEl.innerHTML = isMastered 
+            ? '<span style="color: #059669; font-size: 11px;">✓ Done</span>' 
+            : (isLocked ? '<span style="color: #94a3b8; font-size: 11px;">🔒 Locked</span>' : '<span style="color: #64748b; font-size: 11px;">○ Ready</span>');
         }
       });
       updateMasteryButton(!!progress[selectedTopicId]);
@@ -1072,7 +1106,6 @@
       return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
-    // Launch
     window.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
