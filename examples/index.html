@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Breaking Monospace Keycap Definitions - Teaching Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.7;
+      margin: 0;
+      padding: 40px 16px;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 26px 30px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 6px 0;
+      color: #0f172a;
+    }
+    h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+      margin: 0 0 14px 0;
+    }
+    p.lead {
+      color: #475569;
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* ==========================================================================
+       MONOSPACE KEYCAP (Truly inline, zero line breaks)
+       ========================================================================== */
+    .keycap-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 6px;
+      margin: 0 1px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-bottom: 2px solid #94A3B8;
+      border-radius: 5px;
+      color: #334155;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: baseline;
+      line-height: 1.35;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+      transition: all 0.12s ease;
+      white-space: nowrap;
+    }
+    .keycap-tag:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+    .keycap-tag:active {
+      transform: translateY(1px);
+      border-bottom-width: 1px;
+    }
+    .keycap-tag.active {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      border-bottom: 2px solid #2563EB;
+      color: #1D4ED8;
+    }
+    .keycap-arrow {
+      font-size: 10px;
+      opacity: 0.6;
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+    .keycap-tag.active .keycap-arrow {
+      transform: rotate(90deg);
+      opacity: 1;
+    }
+
+    /* Popover Anchor Container */
+    .popover-wrap {
+      display: inline;
+      position: relative;
+    }
+
+    /* Floating Popover */
+    .popover-bubble {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 285px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+      font-size: 13px;
+      line-height: 1.5;
+      color: #334155;
+      z-index: 100;
+      text-align: left;
+      white-space: normal;
+    }
+    .popover-bubble.show {
+      display: block;
+      animation: popIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .popover-bubble::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #FFFFFF transparent transparent transparent;
+    }
+    .popover-bubble::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 7px;
+      border-style: solid;
+      border-color: #CBD5E1 transparent transparent transparent;
+    }
+
+    .popover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #f1f5f9;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+    }
+    .popover-formula {
+      margin-top: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: #475569;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translate(-50%, 4px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="card">
+      <span class="tag">Teaching Material</span>
+      <h1>Non-Breaking Monospace Keycap Definitions</h1>
+      <p class="lead">
+        Interactive definitions embedded seamlessly into text. Click any keycap below to view its definition without breaking the sentence flow.
+      </p>
+    </div>
+
+    <!-- Example Paragraph -->
+    <div class="card" style="padding-top: 40px;">
+      <h2>In-Context Reading Example</h2>
+      <p style="font-size: 16px; margin: 0;">
+        The acquisition model anticipates an average monthly 
+        <span class="popover-wrap">
+          <button type="button" class="keycap-tag" onclick="togglePopover('pop-cf', this)">
+            <span>cash_flow</span>
+            <span class="keycap-arrow">›</span>
+          </button>
+          <span id="pop-cf" class="popover-bubble">
+            <span class="popover-header">
+              <strong style="color: #2563eb;">cash_flow</strong>
+              <span style="color: #94a3b8;">FINANCE</span>
+            </span>
+            <span>
+              Net revenue remaining each month after settling all property operating expenses, maintenance reserves, and mortgage debt.
+            </span>
+            <div class="popover-formula">
+              Formula: Rents − OpEx − Mortgage (P&I)
+            </div>
+          </span>
+        </span>
+        of $3,800 alongside an attractive initial 
+        <span class="popover-wrap">
+          <button type="button" class="keycap-tag" onclick="togglePopover('pop-cr', this)">
+            <span>cap_rate</span>
+            <span class="keycap-arrow">›</span>
+          </button>
+          <span id="pop-cr" class="popover-bubble">
+            <span class="popover-header">
+              <strong style="color: #2563eb;">cap_rate</strong>
+              <span style="color: #94a3b8;">VALUATION</span>
+            </span>
+            <span>
+              The unleveraged annual rate of return on an investment property, assuming a 100% cash purchase.
+            </span>
+            <div class="popover-formula">
+              Formula: Net Operating Income / Purchase Price
+            </div>
+          </span>
+        </span>
+        of 7.2% for the commercial property.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePopover(id, btn) {
+      const el = document.getElementById(id);
+      const isShowing = el.classList.contains('show');
+      
+      // Close all open popovers
+      document.querySelectorAll('.popover-bubble').forEach(p => p.classList.remove('show'));
+      document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+
+      if (!isShowing) {
+        el.classList.add('show');
+        btn.classList.add('active');
+      }
+    }
+
+    // Dismiss on click outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.popover-wrap')) {
+        document.querySelectorAll('.popover-bubble').forEach(p => p.classList.remove('show'));
+        document.querySelectorAll('.keycap-tag').forEach(b => b.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>
